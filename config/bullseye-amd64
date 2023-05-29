@@ -1,0 +1,21 @@
+DEBARCH=amd64
+DEBRELEASE="bullseye"
+
+DEBMIRROR="http://ftp.us.debian.org/debian/"
+APTCACHE="172.17.0.1:3142"
+ST1_DEBMIRROR="http://${APTCACHE}/ftp.us.debian.org/debian/"
+
+LINUX_ARCH=x86
+LINUX_CROSS_COMPILE=x86_64-linux-gnu-
+LINUX_IMAGE=bzImage
+LINUX_IMAGE_PATH=arch/x86_64/boot
+
+QEMU_ARCH=x86_64
+QEMU_MACHINE=q35
+QEMU_CPU=qemu64
+QEMU_SMP="-smp 4"
+QEMU_MEM=2G
+QEMU_BIOS=""
+QEMU_APPEND="console=ttyS0 root=/dev/sda1 rw net.ifnames=0"
+
+ROOTPASSWD="changeit"
