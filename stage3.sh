@@ -92,7 +92,27 @@ INSTALL_PACKAGES="\$INSTALL_PACKAGES openssh-server"
 INSTALL_PACKAGES="\$INSTALL_PACKAGES python3"
 
 \$APT_GET_INSTALL \$INSTALL_PACKAGES
+EOF
 
+if [ "${DEBARCH}" = "amd64" ]; then
+
+	cat >> ${E2MNT}/alter_debian_once <<EOF
+INSTALL_PACKAGES=""
+INSTALL_PACKAGES="\$INSTALL_PACKAGES linux-image-amd64 grub-pc"
+\$APT_GET_INSTALL \$INSTALL_PACKAGES
+
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="quiet"$/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
+sed -i 's/^GRUB_CMDLINE_LINUX=.*$/GRUB_CMDLINE_LINUX="console=ttyS0 rw net.ifnames=0 systemd.unified_cgroup_hierarchy=0"/' /etc/default/grub
+sed -i 's/^#GRUB_TERMINAL=.*$/GRUB_TERMINAL="console serial"/' /etc/default/grub
+sed -i 's/^GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=1/' /etc/default/grub
+
+grub-install /dev/sda
+update-grub
+EOF
+
+fi
+
+cat >> ${E2MNT}/alter_debian_once <<EOF
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
