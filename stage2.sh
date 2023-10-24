@@ -67,6 +67,15 @@ config_debian_defaults()
 	${SCRIPTS_CONFIG} -e WIREGUARD
 }
 
+config_mips32r2()
+{
+	O=$1
+
+	SCRIPTS_CONFIG="./scripts/config --file ${O}/.config"
+
+	${SCRIPTS_CONFIG} -e HIGHMEM
+}
+
 config_mips64r2()
 {
 	O=$1
@@ -143,7 +152,7 @@ if [ ! -f "output/stage2/${LINUX_KERNEL}-latest" ]; then
 		build_kernel "${LINUX_KERNEL}" "defconfig"
 		;;
 	vmlinux-mipsel-malta)
-		build_kernel "${LINUX_KERNEL}" "malta_defconfig"
+		build_kernel "${LINUX_KERNEL}" "malta_defconfig" config_mips32r2
 		;;
 	vmlinux-mips64el-malta)
 		build_kernel "${LINUX_KERNEL}" "malta_defconfig" config_mips64r2

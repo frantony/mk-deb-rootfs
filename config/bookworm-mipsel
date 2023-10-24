@@ -14,7 +14,7 @@ QEMU_ARCH=mipsel
 QEMU_MACHINE=malta
 QEMU_CPU=24Kc
 QEMU_SMP=""
-QEMU_MEM=256M
+QEMU_MEM=2G
 QEMU_BIOS=""
 QEMU_APPEND="root=/dev/sda1 rw net.ifnames=0"
 
