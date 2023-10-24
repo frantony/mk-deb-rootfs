@@ -16,9 +16,25 @@ if [ -z "${NCPU}" ]; then
 	NCPU=$(nproc)
 fi
 
-LV=5.10.180
-L=linux-${LV}
-A=${L}.tar.xz
+if [ $DEBRELEASE = "bullseye" ]; then
+	LV=5.10.198
+	L=linux-${LV}
+	A=${L}.tar.xz
+	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v5.x/${A}
+fi
+
+if [ $DEBRELEASE = "bookworm" ]; then
+	LV=6.1.59
+	L=linux-${LV}
+	A=${L}.tar.xz
+	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v6.x/${A}
+fi
+
+if [ "$KERNELURL" = "" ]; then
+	echo "unknown DEBRELEASE=$DEBRELEASE"
+	exit 1
+fi
+
 OUTPUT=$(pwd)/output/stage2
 
 SUFFIX="-$(date +'%Y%m%d%H%M')"
@@ -105,7 +121,7 @@ build_kernel()
 mkdir -p src
 
 if [ ! -e src/${A} ]; then
-	( cd src && wget -c https://cdn.kernel.org/pub/linux/kernel/v5.x/${A} )
+	( cd src && wget -c ${KERNELURL} )
 fi
 
 if [ ! -d src/${L} ]; then
