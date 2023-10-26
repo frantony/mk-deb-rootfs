@@ -30,6 +30,13 @@ if [ $DEBRELEASE = "bookworm" ]; then
 	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v6.x/${A}
 fi
 
+if [ $DEBRELEASE = "sid" ]; then
+	LV=6.5
+	L=linux-${LV}
+	A=${L}.tar.xz
+	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v6.x/${A}
+fi
+
 if [ "$KERNELURL" = "" ]; then
 	echo "unknown DEBRELEASE=$DEBRELEASE"
 	exit 1
