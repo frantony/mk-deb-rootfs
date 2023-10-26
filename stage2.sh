@@ -167,6 +167,9 @@ LINUX_KERNEL=${LINUX_IMAGE}-${QEMU_ARCH}-${QEMU_MACHINE}
 
 if [ ! -f "output/stage2/${LINUX_KERNEL}-latest" ]; then
 	case "${LINUX_KERNEL}" in
+	Image-riscv64-virt)
+		build_kernel "${LINUX_KERNEL}" "defconfig"
+		;;
 	Image.gz-aarch64-virt)
 		build_kernel "${LINUX_KERNEL}" "defconfig"
 		;;

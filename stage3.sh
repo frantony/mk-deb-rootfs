@@ -169,7 +169,10 @@ ${QEMU} $KVM -nodefaults \
 	-drive id=hd0,media=disk,if=none,format=qcow2,file=${E2IMAGE} \
 		-device virtio-scsi-pci -device scsi-hd,drive=hd0 \
 	-nographic \
-	-nic user,model=virtio-net-pci,hostfwd=tcp::2222-:22,hostfwd=tcp::6900-:5900 \
+	\
+	-device virtio-net-pci,netdev=network1 \
+		-netdev user,id=network1,hostfwd=tcp::2222-:22,hostfwd=tcp::6900-:5900 \
+	\
 	-kernel "${QEMU_KERNEL}" \
 	-append "${QEMU_APPEND}"
 
