@@ -1,0 +1,28 @@
+FROM debian:12
+
+LABEL comment="Debian rootfs generator on top of Debian 12" \
+      maintainer="Antony Pavlov <antonynpavlov@gmail.com>"
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# use apt-cacher proxy if necessary
+#RUN echo 'Acquire::http { Proxy "http://my-apt-cacher-host:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+RUN echo 'Acquire::http { Proxy "http://172.17.0.2:3142"; };' >> /etc/apt/apt.conf.d/01proxy
+
+RUN set -ex \
+    && apt-get update \
+    && apt-get install -y \
+               debootstrap \
+               xz-utils \
+               gcc make bc flex bison libssl-dev \
+               libelf-dev \
+               qemu-system-x86 \
+               gcc-aarch64-linux-gnu \
+               qemu-system-arm \
+               gcc-mips-linux-gnu \
+               qemu-system-mips \
+               libguestfs-tools \
+    && apt-get clean \
+    && rm -rf /tmp/* /var/tmp/*
+
+WORKDIR /workdir

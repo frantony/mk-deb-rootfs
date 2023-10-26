@@ -31,9 +31,9 @@ run main container
 
 ```
 cd docker
-docker build -f Dockerfile.debian11 --tag mk-deb-rootfs-11 .
+docker build -f Dockerfile.debian12 --tag mk-deb-rootfs-12 .
 cd ..
-docker run -it --rm --privileged -v $(pwd):/workdir mk-deb-rootfs-11
+docker run -it --rm --privileged -v $(pwd):/workdir mk-deb-rootfs-12
 ```
 
 
