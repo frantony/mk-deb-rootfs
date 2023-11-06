@@ -24,7 +24,7 @@ if [ -z "${QEMU_KERNEL}" ]; then
 	QEMU_KERNEL=output/stage2/${LINUX_KERNEL}-latest
 fi
 
-E2IMAGE=output/stage3/linux-rootfs-${QEMU_ARCH}-${QEMU_MACHINE}.qcow2
+E2IMAGE=output/stage3/debian-${DEBRELEASE}-${QEMU_ARCH}-${QEMU_MACHINE}.qcow2
 E2MNT=ext2
 
 DISK_SIZE=16G
@@ -179,3 +179,14 @@ BNE2IMAGE=$(echo ${E2IMAGE} | sed "s/\.qcow2$//")
 
 qemu-img convert -c -O qcow2 ${E2IMAGE} ${BNE2IMAGE}.shrunk.qcow2
 virt-tar-out -a ${E2IMAGE} / - | gzip > ${BNE2IMAGE}.tar.gz
+
+if [ "${DEBRELEASE}" = "sid" ]; then
+	exit 0
+fi
+
+DEBIAN_VERSION=$(virt-tar-out -a ${E2IMAGE} /etc - | tar fxO - ./debian_version)
+
+IMAGE_PREF=output/stage3/debian-${DEBIAN_VERSION}-${DEBRELEASE}-${QEMU_ARCH}-${QEMU_MACHINE}
+mv ${E2IMAGE} ${IMAGE_PREF}.qcow2
+mv ${BNE2IMAGE}.shrunk.qcow2 ${IMAGE_PREF}.shrunk.qcow2
+mv ${BNE2IMAGE}.tar.gz ${IMAGE_PREF}.tar.gz
