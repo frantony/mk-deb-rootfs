@@ -107,6 +107,17 @@ config_mips32r2()
 	${SCRIPTS_CONFIG} -e HIGHMEM
 }
 
+config_mips32r2_be()
+{
+	O=$1
+
+	SCRIPTS_CONFIG="./scripts/config --file ${O}/.config"
+
+	${SCRIPTS_CONFIG} -e HIGHMEM
+	# disable little-endian -> enable big-endian
+	${SCRIPTS_CONFIG} -d CPU_LITTLE_ENDIAN
+}
+
 config_mips64r2()
 {
 	O=$1
@@ -184,6 +195,9 @@ if [ ! -f "output/stage2/${LINUX_KERNEL}-latest" ]; then
 		;;
 	Image.gz-aarch64-virt)
 		build_kernel "${LINUX_KERNEL}" "defconfig"
+		;;
+	vmlinux-mips-malta)
+		build_kernel "${LINUX_KERNEL}" "malta_defconfig" config_mips32r2_be
 		;;
 	vmlinux-mipsel-malta)
 		build_kernel "${LINUX_KERNEL}" "malta_defconfig" config_mips32r2
