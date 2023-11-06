@@ -54,5 +54,7 @@ ${QEMU} $KVM -nodefaults \
 	-fsdev local,path=$(pwd),security_model=mapped-xattr,id=fs-pwd \
 		-device virtio-9p-pci,fsdev=fs-pwd,mount_tag=pwd_mount \
 	\
+	-device virtio-rng-pci \
+	\
 	-kernel "${QEMU_KERNEL}" \
 	-append "${QEMU_APPEND}"
