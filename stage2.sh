@@ -17,7 +17,7 @@ if [ -z "${NCPU}" ]; then
 fi
 
 if [ $DEBRELEASE = "bullseye" ]; then
-	LV=5.10.198
+	LV=5.10.199
 	L=linux-${LV}
 	A=${L}.tar.xz
 	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v5.x/${A}
