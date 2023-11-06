@@ -21,6 +21,8 @@ RUN set -ex \
                qemu-system-arm \
                gcc-mips-linux-gnu \
                qemu-system-mips \
+               gcc-riscv64-linux-gnu \
+               qemu-system-misc \
                libguestfs-tools \
     && apt-get clean \
     && rm -rf /tmp/* /var/tmp/*
