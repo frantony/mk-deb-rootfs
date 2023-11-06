@@ -51,5 +51,8 @@ ${QEMU} $KVM -nodefaults \
 	-device virtio-net-pci,netdev=network1 \
 		-netdev user,id=network1,hostfwd=tcp::2222-:22,hostfwd=tcp::6900-:5900 \
 	\
+	-fsdev local,path=$(pwd),security_model=mapped-xattr,id=fs-pwd \
+		-device virtio-9p-pci,fsdev=fs-pwd,mount_tag=pwd_mount \
+	\
 	-kernel "${QEMU_KERNEL}" \
 	-append "${QEMU_APPEND}"
