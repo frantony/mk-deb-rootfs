@@ -9,6 +9,21 @@ Install qemu, binfmt-support, and qemu-user-static:
 apt install binfmt-support qemu-user-static
 ```
 
+Make sure that your kernel has binfmt support.
+
+Enable an execution of different multi-architecture binaries by QEMU and binfmt_misc:
+
+``
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+``
+
+Prevent mipsn32 and mips conflicts by disabling mipsn32:
+
+```
+echo '-1' > /proc/sys/fs/binfmt_misc/qemu-mipsn32el
+echo '-1' > /proc/sys/fs/binfmt_misc/qemu-mipsn32
+```
+
 * https://wiki.debian.org/QemuUserEmulation.
 * https://github.com/multiarch/qemu-user-static
 * https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/
