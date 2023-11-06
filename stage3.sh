@@ -154,10 +154,9 @@ prepare_rootfs_image
 
 QEMU=qemu-system-${QEMU_ARCH}
 
+KVM=""
 if [ "$(uname -m)" = "x86_64" -a "${QEMU_ARCH}" = "x86_64" ]; then
-	KVM="-enable-kvm"
-else
-	KVM=""
+	grep -E -w 'vmx|svm' /proc/cpuinfo >/dev/null && KVM="-enable-kvm"
 fi
 
 ${QEMU} $KVM -nodefaults \
