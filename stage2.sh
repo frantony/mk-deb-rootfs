@@ -16,6 +16,13 @@ if [ -z "${NCPU}" ]; then
 	NCPU=$(nproc)
 fi
 
+if [ $DEBRELEASE = "buster" ]; then
+	LV=4.19.297
+	L=linux-${LV}
+	A=${L}.tar.xz
+	KERNELURL=https://cdn.kernel.org/pub/linux/kernel/v4.x/${A}
+fi
+
 if [ $DEBRELEASE = "bullseye" ]; then
 	LV=5.10.199
 	L=linux-${LV}
