@@ -16,6 +16,7 @@ RUN set -ex \
                xz-utils \
                gcc make bc flex bison libssl-dev \
                libelf-dev \
+               gcc-x86-64-linux-gnu \
                qemu-system-x86 \
                gcc-aarch64-linux-gnu \
                qemu-system-arm \
