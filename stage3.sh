@@ -165,6 +165,10 @@ EOF
 fi
 
 cat >> ${E2MNT}/alter_debian_once <<EOF
+apt-get upgrade -y
+EOF
+
+cat >> ${E2MNT}/alter_debian_once <<EOF
 apt-get autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
