@@ -15,7 +15,7 @@ source $1
 source lib
 
 if [ -z "$DLINUXTARZ" ]; then
-	DLINUXTARZ=output/stage1/debian-${DEBRELEASE}-${DEBARCH}-latest.tar.gz
+	DLINUXTARZ=output/stage1/${DISTR}-${DEBRELEASE}-${DEBARCH}-latest.tar.gz
 fi
 
 DLINUXTARZ=$(realpath "$DLINUXTARZ")
@@ -26,7 +26,7 @@ if [ -z "${QEMU_KERNEL}" ]; then
 	QEMU_KERNEL=output/stage2/${LINUX_KERNEL}-latest
 fi
 
-E2IMAGE=output/stage3/debian-${DEBRELEASE}-${DEBARCH}-${QEMU_MACHINE}.qcow2
+E2IMAGE=output/stage3/${DISTR}-${DEBRELEASE}-${DEBARCH}-${QEMU_MACHINE}.qcow2
 E2MNT=ext2
 
 DISK_SIZE=16G
@@ -50,9 +50,41 @@ mkdir -p ${E2MNT}
 
 tar -x -f ${DLINUXTARZ} -C ${E2MNT}
 
-cat > ${E2MNT}/etc/apt/sources.list <<EOF
-deb ${DEBMIRROR} ${DEBRELEASE} main contrib non-free
+if [ "$DISTR" = "debian" ]; then
+	COMPONENTS="main contrib non-free"
+
+	if [ "${DEBRELEASE}" = "bookworm" ]; then
+		COMPONENTS="${COMPONENTS} non-free-firmware"
+	fi
+
+	cat > ${E2MNT}/etc/apt/sources.list <<EOF
+deb ${DEBMIRROR} ${DEBRELEASE} ${COMPONENTS}
 EOF
+
+	if [ "${DEBRELEASE}" = "bookworm" ]; then
+		for i in updates backports; do
+			cat >> ${E2MNT}/etc/apt/sources.list <<EOF
+deb ${DEBMIRROR} ${DEBRELEASE}-${i} ${COMPONENTS}
+EOF
+		done
+	fi
+
+fi
+
+if [ "$DISTR" = "ubuntu" ]; then
+	COMPONENTS="main restricted universe multiverse"
+
+	cat > ${E2MNT}/etc/apt/sources.list <<EOF
+deb ${DEBMIRROR} ${DEBRELEASE} ${COMPONENTS}
+EOF
+	if [ "${DEBRELEASE}" = "jammy" ]; then
+		for i in updates security backports; do
+			cat >> ${E2MNT}/etc/apt/sources.list <<EOF
+deb ${DEBMIRROR} ${DEBRELEASE}-${i} ${COMPONENTS}
+EOF
+		done
+	fi
+fi
 
 cat > ${E2MNT}/etc/network/interfaces.d/eth0 <<EOF
 allow-hotplug eth0
@@ -100,12 +132,30 @@ if [ "${DEBARCH}" = "amd64" ]; then
 
 	cat >> ${E2MNT}/alter_debian_once <<EOF
 INSTALL_PACKAGES=""
-INSTALL_PACKAGES="\$INSTALL_PACKAGES linux-image-amd64 grub-pc"
-\$APT_GET_INSTALL \$INSTALL_PACKAGES
+EOF
 
-sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="quiet"$/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
+if [ "$DISTR" = "debian" ]; then
+	cat >> ${E2MNT}/alter_debian_once <<EOF
+INSTALL_PACKAGES="\$INSTALL_PACKAGES linux-image-amd64 grub-pc"
+EOF
+fi
+
+if [ "$DISTR" = "ubuntu" ]; then
+	cat >> ${E2MNT}/alter_debian_once <<EOF
+#INSTALL_PACKAGES="\$INSTALL_PACKAGES linux-image-generic grub-pc"
+INSTALL_PACKAGES="\$INSTALL_PACKAGES linux-image-kvm grub-pc"
+EOF
+fi
+
+	cat >> ${E2MNT}/alter_debian_once <<EOF
+\$APT_GET_INSTALL \$INSTALL_PACKAGES
+EOF
+
+	cat >> ${E2MNT}/alter_debian_once <<EOF
+sed -i 's/^\(GRUB_TIMEOUT_STYLE=.*\)$/#\1/' /etc/default/grub
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*$/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub
 sed -i 's/^GRUB_CMDLINE_LINUX=.*$/GRUB_CMDLINE_LINUX="console=ttyS0 rw net.ifnames=0 systemd.unified_cgroup_hierarchy=0"/' /etc/default/grub
-sed -i 's/^#GRUB_TERMINAL=.*$/GRUB_TERMINAL="console serial"/' /etc/default/grub
+sed -i 's/^#GRUB_TERMINAL=.*$/GRUB_TERMINAL="serial"/' /etc/default/grub
 sed -i 's/^GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=1/' /etc/default/grub
 
 grub-install /dev/sda
@@ -186,9 +236,13 @@ if [ "${DEBRELEASE}" = "sid" ]; then
 	exit 0
 fi
 
-DEBIAN_VERSION=$(virt-tar-out -a ${E2IMAGE} /etc - | tar fxO - ./debian_version)
+if [ "${DISTR}" = "ubuntu" ]; then
+	DEBIAN_VERSION=$(virt-tar-out -a ${E2IMAGE} /usr/lib - | tar fxO - ./os-release | grep "^VERSION=" | sed "s/VERSION=\"//;s/ (.*$//;s/ /-/g" | tr '[:upper:]' '[:lower:]')
+else
+	DEBIAN_VERSION=$(virt-tar-out -a ${E2IMAGE} /etc - | tar fxO - ./debian_version)
+fi
 
-IMAGE_PREF=output/stage3/debian-${DEBIAN_VERSION}-${DEBRELEASE}-${DEBARCH}-${QEMU_MACHINE}
+IMAGE_PREF=output/stage3/${DISTR}-${DEBIAN_VERSION}-${DEBRELEASE}-${DEBARCH}-${QEMU_MACHINE}
 mv ${E2IMAGE} ${IMAGE_PREF}.qcow2
 mv ${BNE2IMAGE}.shrunk.qcow2 ${IMAGE_PREF}.shrunk.qcow2
 mv ${BNE2IMAGE}.tar.gz ${IMAGE_PREF}.tar.gz

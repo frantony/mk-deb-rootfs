@@ -20,13 +20,19 @@ fi
 
 SUFFIX="-$(date +'%Y%m%d%H%M')"
 
-DEBRELARCH=debian-${DEBRELEASE}-${DEBARCH}
+DEBRELARCH=${DISTR}-${DEBRELEASE}-${DEBARCH}
 DEBROOTDIR=$(pwd)/${DEBRELARCH}
 
 rm -rf $DEBROOTDIR
 
+COMPONENTS=""
+if [ "$DISTR" = "ubuntu" ]; then
+	COMPONENTS="--components=main,universe"
+fi
+
 debootstrap --foreign --arch=${DEBARCH} \
 		--no-check-gpg \
+		${COMPONENTS} \
 		--include=ifupdown \
 		$DEBRELEASE $DEBROOTDIR ${ST1_DEBMIRROR}
 

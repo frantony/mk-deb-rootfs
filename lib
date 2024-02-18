@@ -1,3 +1,9 @@
+if [ "$DEBRELEASE" = "jammy" ]; then
+	DISTR="ubuntu"
+else
+	DISTR="debian"
+fi
+
 case "${DEBRELEASE}" in
 buster)
 	LV=4.19.297
@@ -5,6 +11,10 @@ buster)
 	;;
 bullseye)
 	LV=5.10.199
+	KERNELVDIR=v5.x
+	;;
+jammy)
+	LV=5.15.148
 	KERNELVDIR=v5.x
 	;;
 bookworm)
