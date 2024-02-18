@@ -1,0 +1,22 @@
+case "${DEBRELEASE}" in
+buster)
+	LV=4.19.297
+	KERNELVDIR=v4.x
+	;;
+bullseye)
+	LV=5.10.199
+	KERNELVDIR=v5.x
+	;;
+bookworm)
+	LV=6.1.59
+	KERNELVDIR=v6.x
+	;;
+sid)
+	LV=6.5
+	KERNELVDIR=v6.x
+	;;
+*)
+	echo "ERROR: unknown DEBRELEASE=$DEBRELEASE"
+	exit 1
+	;;
+esac

@@ -12,6 +12,8 @@ set -x
 
 source $1
 
+source lib
+
 if [ -z "${ROOTPASSWD}" ]; then
 	ROOTPASSWD="changeit"
 fi

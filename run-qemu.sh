@@ -12,10 +12,12 @@ set -x
 
 source $1
 
+source lib
+
 E2IMAGE=$2
 
 if [ -z "${QEMU_KERNEL}" ]; then
-	LINUX_KERNEL=${LINUX_IMAGE}-${QEMU_ARCH}-${QEMU_MACHINE}
+	LINUX_KERNEL=${LINUX_IMAGE}-${LV}-${QEMU_ARCH}-${QEMU_MACHINE}
 	QEMU_KERNEL=output/stage2/${LINUX_KERNEL}-latest
 fi
 

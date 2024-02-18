@@ -12,15 +12,17 @@ set -x
 
 source $1
 
+source lib
+
 if [ -z "$DLINUXTARZ" ]; then
 	DLINUXTARZ=output/stage1/debian-${DEBRELEASE}-${DEBARCH}-latest.tar.gz
 fi
 
 DLINUXTARZ=$(realpath "$DLINUXTARZ")
 
-LINUX_KERNEL=${LINUX_IMAGE}-${QEMU_ARCH}-${QEMU_MACHINE}
 
 if [ -z "${QEMU_KERNEL}" ]; then
+	LINUX_KERNEL=${LINUX_IMAGE}-${LV}-${QEMU_ARCH}-${QEMU_MACHINE}
 	QEMU_KERNEL=output/stage2/${LINUX_KERNEL}-latest
 fi
 
