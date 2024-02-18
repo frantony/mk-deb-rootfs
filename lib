@@ -18,7 +18,7 @@ jammy)
 	KERNELVDIR=v5.x
 	;;
 bookworm)
-	LV=6.1.59
+	LV=6.1.78
 	KERNELVDIR=v6.x
 	;;
 sid)
