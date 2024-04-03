@@ -1,4 +1,4 @@
-if [ "$DEBRELEASE" = "jammy" ]; then
+if [ "$DEBRELEASE" = "jammy" -o "$DEBRELEASE" = "focal" ]; then
 	DISTR="ubuntu"
 else
 	DISTR="debian"
@@ -8,6 +8,10 @@ case "${DEBRELEASE}" in
 buster)
 	LV=4.19.297
 	KERNELVDIR=v4.x
+	;;
+focal)
+	LV=5.4.272
+	KERNELVDIR=v5.x
 	;;
 bullseye)
 	LV=5.10.199

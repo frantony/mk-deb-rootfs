@@ -148,6 +148,7 @@ EOF
 fi
 
 	cat >> ${E2MNT}/alter_debian_once <<EOF
+export DEBIAN_FRONTEND=noninteractive
 \$APT_GET_INSTALL \$INSTALL_PACKAGES
 EOF
 
