@@ -25,6 +25,10 @@ bookworm)
 	LV=6.1.78
 	KERNELVDIR=v6.x
 	;;
+trixie)
+	LV=6.6.27
+	KERNELVDIR=v6.x
+	;;
 sid)
 	LV=6.5
 	KERNELVDIR=v6.x

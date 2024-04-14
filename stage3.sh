@@ -237,6 +237,12 @@ BNE2IMAGE=$(echo ${E2IMAGE} | sed "s/\.qcow2$//")
 qemu-img convert -c -O qcow2 ${E2IMAGE} ${BNE2IMAGE}.shrunk.qcow2
 virt-tar-out -a ${E2IMAGE} / - | gzip > ${BNE2IMAGE}.tar.gz
 
+# Debian testing: no version
+if [ "${DEBRELEASE}" = "trixie" ]; then
+	exit 0
+fi
+
+# Debian unstable: no version
 if [ "${DEBRELEASE}" = "sid" ]; then
 	exit 0
 fi
