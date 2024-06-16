@@ -43,7 +43,7 @@ apt_force_ipv4()
 apt_setup_proxy()
 {
 	if [ -n "${APTPROXY}" ]; then
-		echo 'Acquire::http { Proxy "${APTPROXY}"; };' > ${APTPROXYFILE}
+		echo "Acquire::http { Proxy \"${APTPROXY}\"; };" > ${APTPROXYFILE}
 	fi
 }
 
