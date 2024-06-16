@@ -10,13 +10,11 @@ fi
 
 set -x
 
-source $1
+source lib $1
 
 if [ -z "${NCPU}" ]; then
 	NCPU=$(nproc)
 fi
-
-source lib
 
 L=linux-${LV}
 A=${L}.tar.xz

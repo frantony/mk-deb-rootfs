@@ -1,19 +1,2 @@
-DEBARCH=mips64el
-DEBRELEASE="buster"
-
-DEBMIRROR="http://ftp.us.debian.org/debian/"
-APTCACHE="172.17.0.1:3142"
-ST1_DEBMIRROR="http://${APTCACHE}/ftp.us.debian.org/debian/"
-
-LINUX_ARCH=mips
-LINUX_IMAGE=vmlinux
-
-QEMU_ARCH=mips64el
-QEMU_MACHINE=malta
-QEMU_CPU=MIPS64R2-generic
-QEMU_SMP=""
-QEMU_MEM=2048M
-QEMU_BIOS=""
-QEMU_APPEND="root=/dev/sda1 rw net.ifnames=0"
-
-ROOTPASSWD="changeit"
+DEFAULT_CONFIG=debian-mips64el
+DEBRELEASE=buster

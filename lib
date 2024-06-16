@@ -1,3 +1,12 @@
+set -x
+
+source $1
+
+if [ -n "${DEFAULT_CONFIG}" ]; then
+	source $(dirname $1)/${DEFAULT_CONFIG}
+	source $1
+fi
+
 case "${DEBRELEASE}" in
 focal|jammy|noble)
 	DISTR="ubuntu"
@@ -33,7 +42,7 @@ trixie)
 	KERNELVDIR=v6.x
 	;;
 sid)
-	LV=6.5
+	LV=6.7.9
 	KERNELVDIR=v6.x
 	;;
 noble)

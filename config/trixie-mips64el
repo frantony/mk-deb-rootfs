@@ -1,2 +1,2 @@
 DEFAULT_CONFIG=debian-mips64el
-DEBRELEASE=bullseye
+DEBRELEASE=trixie

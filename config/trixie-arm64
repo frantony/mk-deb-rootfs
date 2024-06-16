@@ -1,2 +1,2 @@
 DEFAULT_CONFIG=debian-arm64
-DEBRELEASE=bullseye
+DEBRELEASE=trixie

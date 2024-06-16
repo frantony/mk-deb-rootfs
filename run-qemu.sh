@@ -10,9 +10,7 @@ fi
 
 set -x
 
-source $1
-
-source lib
+source lib $1
 
 E2IMAGE=$2
 

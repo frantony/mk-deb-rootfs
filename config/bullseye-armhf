@@ -1,2 +1,2 @@
 DEFAULT_CONFIG=debian-armhf
-DEBRELEASE=sid
+DEBRELEASE=bullseye

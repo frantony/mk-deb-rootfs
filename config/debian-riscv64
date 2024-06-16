@@ -1,0 +1,18 @@
+DEBARCH=riscv64
+
+DEBMIRROR="http://ftp.us.debian.org/debian/"
+APTCACHE="172.17.0.1:3142"
+ST1_DEBMIRROR="http://${APTCACHE}/ftp.us.debian.org/debian/"
+
+LINUX_ARCH=riscv
+LINUX_IMAGE=Image
+
+QEMU_ARCH=riscv64
+QEMU_MACHINE=virt
+QEMU_CPU=rv64
+QEMU_SMP="-smp 4"
+QEMU_MEM=2G
+QEMU_BIOS=""
+QEMU_APPEND="console=ttyS0 root=/dev/sda1 rw net.ifnames=0"
+
+ROOTPASSWD="changeit"

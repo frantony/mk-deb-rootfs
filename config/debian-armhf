@@ -1,0 +1,18 @@
+DEBARCH=armhf
+
+DEBMIRROR="http://ftp.us.debian.org/debian/"
+APTCACHE="172.17.0.1:3142"
+ST1_DEBMIRROR="http://${APTCACHE}/ftp.us.debian.org/debian/"
+
+LINUX_ARCH=arm64
+LINUX_IMAGE=Image.gz
+
+QEMU_ARCH=aarch64
+QEMU_MACHINE=virt
+QEMU_CPU=cortex-a72
+QEMU_SMP="-smp 4"
+QEMU_MEM=2G
+QEMU_BIOS="-bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd"
+QEMU_APPEND="root=/dev/sda1 rw net.ifnames=0"
+
+ROOTPASSWD="changeit"

@@ -10,9 +10,7 @@ fi
 
 set -x
 
-source $1
-
-source lib
+source lib $1
 
 if [ -z "$DLINUXTARZ" ]; then
 	DLINUXTARZ=output/stage1/${DISTR}-${DEBRELEASE}-${DEBARCH}-latest.tar.gz
