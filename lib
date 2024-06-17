@@ -1,8 +1,11 @@
-if [ "$DEBRELEASE" = "jammy" -o "$DEBRELEASE" = "focal" ]; then
+case "${DEBRELEASE}" in
+focal|jammy|noble)
 	DISTR="ubuntu"
-else
+	;;
+*)
 	DISTR="debian"
-fi
+	;;
+esac
 
 case "${DEBRELEASE}" in
 buster)
@@ -31,6 +34,10 @@ trixie)
 	;;
 sid)
 	LV=6.5
+	KERNELVDIR=v6.x
+	;;
+noble)
+	LV=6.8
 	KERNELVDIR=v6.x
 	;;
 *)
