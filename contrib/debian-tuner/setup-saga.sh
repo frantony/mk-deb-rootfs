@@ -10,10 +10,10 @@
 set -x
 set -e
 
-GIT_USER_EMAIL="you@example.com"
+GIT_CONFIG_USER_EMAIL="you@example.com"
 GIT_CONFIG_USER_NAME="Your Name"
 
-#GIT_USER_EMAIL="antonynpavlov@gmail.com"
+#GIT_CONFIG_USER_EMAIL="antonynpavlov@gmail.com"
 #GIT_CONFIG_USER_NAME="Antony Pavlov"
 
 GIT_CONFIG_EDITOR=vim
@@ -91,7 +91,7 @@ EOF
 		git add .gitignore
 	fi
 
-	git config user.email "$GIT_USER_EMAIL"
+	git config user.email "$GIT_CONFIG_USER_EMAIL"
 	git config user.name "$GIT_CONFIG_USER_NAME"
 	git config core.editor "$GIT_CONFIG_EDITOR"
 
