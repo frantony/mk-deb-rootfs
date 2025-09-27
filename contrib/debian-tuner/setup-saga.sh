@@ -10,11 +10,8 @@
 set -x
 set -e
 
-GIT_CONFIG_USER_EMAIL="you@example.com"
-GIT_CONFIG_USER_NAME="Your Name"
-
-#GIT_CONFIG_USER_EMAIL="antonynpavlov@gmail.com"
-#GIT_CONFIG_USER_NAME="Antony Pavlov"
+GIT_CONFIG_USER_NAME="${GIT_CONFIG_USER_NAME:-Your Name}"
+GIT_CONFIG_USER_EMAIL="${GIT_CONFIG_USER_EMAIL:-you@example.com}"
 
 GIT_CONFIG_EDITOR=vim
 
