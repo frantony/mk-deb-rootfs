@@ -38,7 +38,7 @@ bookworm)
 	KERNELVDIR=v6.x
 	;;
 trixie)
-	LV=6.6.27
+	LV=6.12.48
 	KERNELVDIR=v6.x
 	;;
 sid)
