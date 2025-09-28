@@ -42,7 +42,7 @@ trixie)
 	KERNELVDIR=v6.x
 	;;
 sid)
-	LV=6.7.9
+	LV=6.16.9
 	KERNELVDIR=v6.x
 	;;
 noble)
